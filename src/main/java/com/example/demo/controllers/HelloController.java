@@ -6,6 +6,11 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 // @RestController je složená anotace obsahující @Controller a @ResponseBody
 // automatická serializace objektů na HttpResponse (jsou-li vraceny z request handleru)
+
+
+// YAML: Hierarchie dat pomocí odsazení
+// JSON: odlehčený formát pro výměnu dat, závorkz pro objekty, hranaté závorky pro pole
+// XML: značkovací jazyk, možnost definovat vlastní znaky, flexibilní, lidsky ne zrovna nejlépe čitelný, větší soubory
 public class HelloController {
     @GetMapping("")
     public String helloWorld() {
