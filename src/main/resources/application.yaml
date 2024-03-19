@@ -12,27 +12,27 @@ spring:
     url: jdbc:postgresql://localhost:5432/nnpia
     username: nnpia
     password: nnpia
-#  security:
-#      user:
-#        name: user
-#        password: password
-#      oauth2:
-#        authorizationserver:
-#          client:
-#            oidc-client:
-#              registration:
-#                client-id: "oidc-client"
-#                client-secret: "{noop}secret"
-#                client-authentication-methods:
-#                  - "client_secret_basic"
-#                authorization-grant-types:
-#                  - "authorization_code"
-#                  - "refresh_token"
-#                redirect-uris:
-#                  - "http://127.0.0.1:5432/login/oauth2/code/oidc-client"
-#                post-logout-redirect-uris:
-#                  - "http://127.0.0.1:5432/"
-#                scopes:
-#                  - "openid"
-#                  - "profile"
-#              require-authorization-consent: true
+  security:
+      user:
+        name: user
+        password: password
+      oauth2:
+        authorizationserver:
+          client:
+            oidc-client:
+              registration:
+                client-id: "oidc-client"
+                client-secret: "{noop}secret"
+                client-authentication-methods:
+                  - "client_secret_basic"
+                authorization-grant-types:
+                  - "authorization_code"
+                  - "refresh_token"
+                redirect-uris:
+                  - "http://127.0.0.1:9000/login/oauth2/code/oidc-client"
+                post-logout-redirect-uris:
+                  - "http://127.0.0.1:9000/"
+                scopes:
+                  - "openid"
+                  - "profile"
+              require-authorization-consent: true
