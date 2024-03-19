@@ -18,10 +18,12 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import static net.bytebuddy.matcher.ElementMatchers.is;
 import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.is;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.any;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 
@@ -47,8 +49,26 @@ public class AppUserController_Test {
         given(appUserRepository.findAll()).willReturn(users);
         mockMvc.perform(get("/app-users")
                         .contentType(APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$", hasSize(1)));
+                .andExpectAll(
+                        status().isOk(),
+                        jsonPath("$", hasSize(1)),
+                        jsonPath("$[0].username", is(user.getUsername())));
     }
 
+    @Test
+    @WithMockUser(username = "user", password = "password", roles = {"USER"})
+    public void createUserTest() throws Exception {
+        AppUser newUser = new AppUser();
+        newUser.setUsername("CREATED_USER");
+
+        given(appUserRepository.save(any(AppUser.class)))
+                .willReturn(newUser);
+
+        mockMvc.perform(post("/app-users")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(newUser))
+                        .with(csrf()))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.username", is(newUser.getUsername())));
+    }
 }
